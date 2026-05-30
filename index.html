@@ -672,36 +672,45 @@
 
             const renderAllView = () => {
                 if (!activeExam) return null;
+                const circleNums = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
                 return (
-                    <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-xl shadow-lg mt-4 sm:mt-10 min-h-[80vh]">
-                        <div className="flex justify-between items-center mb-6 pb-4 border-b">
+                    <div className="max-w-4xl mx-auto p-6 sm:p-10 bg-white rounded-xl shadow-lg mt-4 sm:mt-10 min-h-[80vh]">
+                        <div className="flex justify-between items-center mb-8 pb-4 border-b">
                             <h2 className="text-2xl font-bold text-gray-800 flex items-center">
-                                <i className="ph ph-list-magnifying-glass text-emerald-500 mr-2"></i> {activeExam.title} (전체 정답 보기)
+                                <i className="ph ph-list-magnifying-glass text-gray-500 mr-2"></i> {activeExam.title} (전체 정답 보기)
                             </h2>
                             <button onClick={resetApp} className="text-gray-600 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg font-medium text-sm">
                                 홈으로
                             </button>
                         </div>
-                        <div className="space-y-6">
-                            <div className="text-sm text-gray-500 text-right">총 {activeExam.questions.length}문제</div>
+                        <div className="space-y-12 font-serif">
                             {activeExam.questions.map((q, index) => (
-                                <div key={q.id} className="p-5 border border-emerald-200 bg-emerald-50/30 rounded-xl relative">
-                                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-start whitespace-pre-wrap">
-                                        <span className="text-emerald-600 mr-2 shrink-0">[{index + 1}]</span>
+                                <div key={q.id} className="relative">
+                                    <div className="text-2xl text-gray-800 mb-2 font-medium tracking-wide">
+                                        {String(index + 1).padStart(2, '0')}
+                                    </div>
+                                    <div className="text-lg text-gray-900 mb-5 leading-relaxed whitespace-pre-wrap">
                                         <span dangerouslySetInnerHTML={{ __html: q.question }} />
-                                    </h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-                                        {q.options.map((opt, optIdx) => (
-                                            <div key={optIdx} className={`p-3 rounded-lg border ${optIdx === q.answer ? 'bg-green-100 border-green-400 font-bold text-green-900' : 'bg-white border-gray-200'}`}>
-                                                <span className="mr-2 text-sm text-gray-500">{optIdx + 1}.</span> {opt}
-                                                {optIdx === q.answer && <i className="ph ph-check-circle text-green-600 ml-2"></i>}
-                                            </div>
-                                        ))}
                                     </div>
-                                    <div className="mt-4 p-4 bg-white border border-gray-200 rounded-lg">
-                                        <strong className="text-blue-700 flex items-center mb-1"><i className="ph ph-info mr-1"></i> 해설:</strong>
-                                        <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">{q.explanation}</p>
+                                    <div className="space-y-2 mb-6">
+                                        {q.options.map((opt, optIdx) => {
+                                            const isCorrect = optIdx === q.answer;
+                                            const textColor = isCorrect ? 'text-red-500 font-medium' : 'text-gray-800';
+                                            const numChar = circleNums[optIdx] || `(${optIdx + 1})`;
+                                            return (
+                                                <div key={optIdx} className={`flex items-start text-lg ${textColor}`}>
+                                                    <span className="mr-2 shrink-0">{numChar}</span>
+                                                    <span className="whitespace-pre-wrap">{opt}</span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
+                                    {q.explanation && (
+                                        <div className="mt-4 p-4 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg text-sm leading-relaxed whitespace-pre-wrap font-sans">
+                                            <strong className="text-gray-600 flex items-center mb-1"><i className="ph ph-info mr-1"></i> 해설:</strong>
+                                            {q.explanation}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
