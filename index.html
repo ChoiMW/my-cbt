@@ -452,7 +452,7 @@
 
                             <h3 className="text-xl font-bold text-gray-800 mb-6 leading-relaxed flex items-start whitespace-pre-wrap">
                                 <span className="text-blue-600 mr-2 shrink-0">Q.</span>
-                                {q.question}
+                                <span dangerouslySetInnerHTML={{ __html: q.question }} />
                             </h3>
 
                             <div className="space-y-3">
@@ -632,7 +632,7 @@
 
                                         <h3 className="text-lg font-bold text-gray-800 mb-4 pr-16 flex items-start whitespace-pre-wrap">
                                             <span className="text-red-500 mr-2 shrink-0">[{index + 1}]</span>
-                                            {q.question}
+                                            <span dangerouslySetInnerHTML={{ __html: q.question }} />
                                         </h3>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
